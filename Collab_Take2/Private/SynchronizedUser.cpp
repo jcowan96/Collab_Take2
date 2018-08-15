@@ -29,7 +29,7 @@ void USynchronizedUser::BeginPlay()
 {
 	Super::BeginPlay();
 
-	VRCamera = GetOwner()->FindComponentByClass<UCameraComponent>(); 
+	VRCamera = GetOwner()->FindComponentByClass<UCameraComponent>();
 	if (VRCamera.IsValid())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("[SynchronizedUser] Owner Is Valid"));

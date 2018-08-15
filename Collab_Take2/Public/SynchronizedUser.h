@@ -16,6 +16,7 @@
 
 //Forward Declarations
 class USynchronizationManager;
+//Test comment here
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class COLLAB_TAKE2_API USynchronizedUser : public UActorComponent

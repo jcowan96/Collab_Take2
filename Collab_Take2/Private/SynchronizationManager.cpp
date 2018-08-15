@@ -265,7 +265,7 @@ void USynchronizationManager::sendRotationChange(UActorComponent* synchronizedOb
 		+ toUpper(groupID) + "." + toUpper(projectName) + "." + nameToUse + "." + toUpper(userName); //Might have to replace '.mtproj' in projectName as well, TBD
 
 	publishStateAttributeDataMessage(subject, EntityStateAttributeTypes::absoluteRotation, pathToUse, occurenceTime, transformToUse);
-} 
+}
 
 void USynchronizationManager::sendScaleChange(UActorComponent* synchronizedObject)
 {
@@ -503,7 +503,7 @@ void USynchronizationManager::receiveMessage() {
 			{
 
 				std::string messageUser = subjectFields[8]; //Compare alias of this synchronizationManager to alias in message subject
-				
+
 				if (toUpper(messageUser) == toUpper(userName))
 				{
 					//This was the message we sent, ignore it
@@ -654,7 +654,7 @@ void USynchronizationManager::receiveMessage() {
 					{
 						TWeakObjectPtr<UActorComponent> temp = *It;
 						FString componentPath = temp->GetPathName();
-					
+
 						if (componentPath == entity)
 						{
 							UE_LOG(LogTemp, Warning, TEXT("[SynchronizationManager]: Component Path: %s"), *componentPath);

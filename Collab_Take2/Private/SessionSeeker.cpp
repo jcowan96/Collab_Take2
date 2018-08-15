@@ -87,57 +87,57 @@ void USessionSeeker::searchForSessions() {
 //===================================================================================================================
 
 /*void USessionSeeker::requestSessionInfo() {
-	std::string hostName = "unknown";
-	std::string requestSubject = "GMSEC." + missionName + "." + satName + ".REQ.DIR.SEEKER.LIST";
-	std::string user = alias + "." + hostName;
+std::string hostName = "unknown";
+std::string requestSubject = "GMSEC." + missionName + "." + satName + ".REQ.DIR.SEEKER.LIST";
+std::string user = alias + "." + hostName;
 
-	//Create Request Message with Header
-	gmsec::api::Message msg(requestSubject.c_str(), gmsec::api::Message::MessageKind::REQUEST);
-	msg.addField("HEADER-VERSION", (GMSEC_F32)2010);
-	msg.addField("MESSAGE-TYPE", "REQ");
-	msg.addField("MESSAGE-SUBTYPE", "DIR");
-	msg.addField("CONTENT-VERSION", (GMSEC_F32)2016);
-	msg.addField("USER", user.c_str());
-	msg.addField("DIRECTIVE-STRING", "LISTSESSIONS");
-	msg.addField("RESPONSE", true);
+//Create Request Message with Header
+gmsec::api::Message msg(requestSubject.c_str(), gmsec::api::Message::MessageKind::REQUEST);
+msg.addField("HEADER-VERSION", (GMSEC_F32)2010);
+msg.addField("MESSAGE-TYPE", "REQ");
+msg.addField("MESSAGE-SUBTYPE", "DIR");
+msg.addField("CONTENT-VERSION", (GMSEC_F32)2016);
+msg.addField("USER", user.c_str());
+msg.addField("DIRECTIVE-STRING", "LISTSESSIONS");
+msg.addField("RESPONSE", true);
 
-	try //Because it's not a simple PUBLISH, wrap with try/catch to handle exceptions
-	{
-		gmsec::api::Message* rpl = connMgr->request(msg, 2000, -1);
-		if (rpl != NULL)
-		{
-			//Spilt this field somehow
-			std::string msgData = rpl->getStringField("DATA").getValue(); // The ease of this conversion is suspicious
-			std::vector<std::string> messageData = stringSplit(msgData, ";");
-			if (messageData.size() == 3)
-			{
-				SessionInformation sessionInfo(messageData[0], messageData[1], messageData[2]);
-				availableSessions.push_back(sessionInfo);
-			}
-			UE_LOG(LogTemp, Warning, TEXT("[SessionSeeker] Logged and processed the reply from [SessionAdvertiser]"));
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("[SessionSeeker] Did not receive a reply to it's request for session info"));
-		}
-	}
+try //Because it's not a simple PUBLISH, wrap with try/catch to handle exceptions
+{
+gmsec::api::Message* rpl = connMgr->request(msg, 2000, -1);
+if (rpl != NULL)
+{
+//Spilt this field somehow
+std::string msgData = rpl->getStringField("DATA").getValue(); // The ease of this conversion is suspicious
+std::vector<std::string> messageData = stringSplit(msgData, ";");
+if (messageData.size() == 3)
+{
+SessionInformation sessionInfo(messageData[0], messageData[1], messageData[2]);
+availableSessions.push_back(sessionInfo);
+}
+UE_LOG(LogTemp, Warning, TEXT("[SessionSeeker] Logged and processed the reply from [SessionAdvertiser]"));
+}
+else
+{
+UE_LOG(LogTemp, Warning, TEXT("[SessionSeeker] Did not receive a reply to it's request for session info"));
+}
+}
 
-	catch (gmsec::api::Exception e)
-	{
-		FString str(e.what());
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *str);
-	}
+catch (gmsec::api::Exception e)
+{
+FString str(e.what());
+UE_LOG(LogTemp, Warning, TEXT("%s"), *str);
+}
 
-	//Maybe remove this?
-	gmsec::api::Message cleanupMsg("GMSEC.TEST.PUBLISH", gmsec::api::Message::MessageKind::PUBLISH); //Test message
-	cleanupMsg.addField("CLEANUP", "Session Seeker Cleaned Up!");
-	connMgr->publish(cleanupMsg);
-	connMgr->cleanup();
+//Maybe remove this?
+gmsec::api::Message cleanupMsg("GMSEC.TEST.PUBLISH", gmsec::api::Message::MessageKind::PUBLISH); //Test message
+cleanupMsg.addField("CLEANUP", "Session Seeker Cleaned Up!");
+connMgr->publish(cleanupMsg);
+connMgr->cleanup();
 
-	for (SessionInformation sess : availableSessions) {
-		std::string info = sess.sessionName + " " + sess.projectName + " " + sess.groupName;
-		GMSEC_DEBUG << info.c_str();
-	}
+for (SessionInformation sess : availableSessions) {
+std::string info = sess.sessionName + " " + sess.projectName + " " + sess.groupName;
+GMSEC_DEBUG << info.c_str();
+}
 
 } */
 

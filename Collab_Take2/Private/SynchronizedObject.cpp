@@ -49,7 +49,7 @@ void USynchronizedObject::TickComponent(float DeltaTime, ELevelTick TickType, FA
 		for (TObjectIterator<USynchronizationManager> It; It; ++It)
 		{
 			TWeakObjectPtr<USynchronizationManager> temp = *It; //Assigning a pointer like this lets us check if the SynchronizationManager is valid
-			
+
 			if (temp.IsValid())
 			{
 				UE_LOG(LogTemp, Warning, TEXT("[SynchronizedObject] Found Valid SynchronizationManager in scene"));

@@ -33,7 +33,7 @@ void USessionAdvertiser::BeginPlay()
 	cfg.addValue("server", server.c_str());
 	cfg.addValue("GMSEC-REQ-RESP", "OPEN-RESP"); //Enable GMSEC open response
 
-	//Initialize pointers to real objects
+												 //Initialize pointers to real objects
 	connMgr.reset(new gmsec::api::mist::ConnectionManager(cfg));
 	sessionInformation.reset(new SessionInformation());
 
@@ -49,7 +49,7 @@ void USessionAdvertiser::BeginPlay()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("s"), *FString(e.what()));
 	}
-	
+
 	GMSEC_DEBUG << "[SessionAdvertiser] Subscribed to: " << sub.c_str();
 	subscribed = true;
 	initialized = true;
