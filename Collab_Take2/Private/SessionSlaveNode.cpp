@@ -190,7 +190,7 @@ void USessionSlaveNode::connect(SessionInformation sessionInfo, std::string alia
 	cfg.addValue("server", server.c_str());
 	cfg.addValue("GMSEC-REQ-RESP", "OPEN-RESP"); //GMSEC Open Response Feature
 
-												 //Initialize Pointers to real objects
+	//Initialize Pointers to real objects
 	connMgr.reset(new gmsec::api::mist::ConnectionManager(cfg));
 	reply.reset(new gmsec::api::Message("TEST", gmsec::api::Message::MessageKind::REPLY));
 	synchronizationManager = NewObject<USynchronizationManager>(GetOwner(), USynchronizationManager::StaticClass());

@@ -62,8 +62,8 @@ public:
 	std::unique_ptr<gmsec::api::mist::ConnectionManager> connMgr;
 	std::unique_ptr<gmsec::api::Message> reply; //Message pointer to get reply from MasterNode via SlaveWorker
 
-												//Functions
-												// Called every frame
+	//Functions
+	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void connect(SessionInformation sessionInfo, std::string alias);
 
