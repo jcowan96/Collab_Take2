@@ -46,6 +46,10 @@ void USessionSlaveNode::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//Figure out what type of world this is, to only attach to components in that world
+	EWorldType::Type wld = GetWorld()->WorldType;
+	worldType = worldTypeToString(wld);
+
 	//Find sessionSeeker in scene to get SessionInformation from (should be changed to user-supplied parameters passed in from a GUI)
 	for (TObjectIterator<USessionSeeker> It; It; ++It)
 	{
@@ -102,9 +106,9 @@ void USessionSlaveNode::connect(SessionInformation sessionInfo, std::string alia
 		if (camera.IsValid())
 		{
 			FString path(camera->GetPathName());
-			FString correctLevel("UEDPIE"); //May have to change this if not running in editor
-			FString cameraName("VR_Pawn_2.VRCamera"); //VR Camera named this by UE4 convention
-			if (path.Find(correctLevel) != -1 && path.Find(cameraName) != -1)
+			FString cameraName = vrPawn + FString(TEXT(".VRCamera")); //VR Camera named this by UE4 convention
+
+			if (path.Find(worldType) != -1 && path.Find(cameraName) != -1)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("[SLAVENODE]: %s"), *FString(camera->GetPathName()));
 				UE_LOG(LogTemp, Warning, TEXT("[SLAVENODE]: %s"), *FString(camera->GetName()));
@@ -121,18 +125,17 @@ void USessionSlaveNode::connect(SessionInformation sessionInfo, std::string alia
 		if (controller.IsValid())
 		{
 			FString path(controller->GetPathName());
-			FString correctLevel("UEDPIE"); //May have to change this if not running in editor
-			FString leftControllerName("VR_Pawn_2.MC_Left"); //UE4 Convention
-			FString rightControllerName("VR_Pawn_2.MC_Right"); //UE4 Convention
+			FString leftControllerName = vrPawn + FString(TEXT(".MC_Left"));  //UE4 Convention
+			FString rightControllerName = vrPawn + FString(TEXT(".MC_Right"));  //UE4 Convention
 
-			if (path.Find(correctLevel) != -1 && path.Find(leftControllerName) != -1)
+			if (path.Find(worldType) != -1 && path.Find(leftControllerName) != -1)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("[SLAVENODE]: %s"), *FString(controller->GetPathName()));
 				UE_LOG(LogTemp, Warning, TEXT("[SLAVENODE]: %s"), *FString(controller->GetName()));
 				UE_LOG(LogTemp, Warning, TEXT("[SLAVENODE]: %s"), *FString(controller->GetOwner()->GetName()));
 				leftCon = controller;
 			}
-			else if (path.Find(correctLevel) != -1 && path.Find(rightControllerName) != -1)
+			else if (path.Find(worldType) != -1 && path.Find(rightControllerName) != -1)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("[SLAVENODE]: %s"), *FString(controller->GetPathName()));
 				UE_LOG(LogTemp, Warning, TEXT("[SLAVENODE]: %s"), *FString(controller->GetName()));
@@ -428,4 +431,17 @@ std::string USessionSlaveNode::toUpper(std::string str) {
 	}
 
 	return ret;
+}
+
+//Could update this for other worldTypes if relevant
+FString USessionSlaveNode::worldTypeToString(EWorldType::Type world)
+{
+	if (world == EWorldType::Type::PIE)
+	{
+		return FString(TEXT("UEDPIE"));
+	}
+	else
+	{
+		return FString(TEXT(""));
+	}
 }

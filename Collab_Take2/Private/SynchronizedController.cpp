@@ -35,8 +35,8 @@ void USynchronizedController::BeginPlay()
 	//Find If VRController is Left or Right side Controller
 	TArray<UMotionControllerComponent*> motionControllers;
 	GetOwner()->GetComponents<UMotionControllerComponent>(motionControllers);
-	FString left("MC_Left");
-	FString right("MC_Right");
+	FString left("MC_Left"); //UE4 Convention
+	FString right("MC_Right"); //UE4 Convention
 	for (int i = 0; i < motionControllers.Num(); i++)
 	{
 		FString controllerPath = motionControllers[i]->GetPathName();

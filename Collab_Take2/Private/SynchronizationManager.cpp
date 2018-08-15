@@ -32,6 +32,11 @@ void USynchronizationManager::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//Get path of current level to synchronize entities between instances
+	FString currentPath = GetWorld()->GetCurrentLevel()->GetPathName();
+	levelPath = std::string(TCHAR_TO_UTF8(*currentPath)) + ".";
+	UE_LOG(LogTemp, Warning, TEXT("[SynchronizationManager] levelPath is: %s."), *currentPath);
+
 	initialize();
 }
 
@@ -122,8 +127,7 @@ void USynchronizationManager::sendPositionChange(UActorComponent* synchronizedOb
 		USynchronizedUser* user = Cast<USynchronizedUser>(synchronizedObject);
 		nameToUse = toUpper(user->userAlias);
 
-		//Figure out better way to get the name of the user // This is hardcoded
-		pathToUse = "/Game/StarterContent/Maps/UEDPIE_0_Minimal_Default.Minimal_Default:PersistentLevel." + (user->userAlias) + "." + (user->userAlias);
+		pathToUse = levelPath + (user->userAlias) + "." + (user->userAlias);
 
 		transformToUse = user->VRCamera->GetComponentTransform(); //If user, send transform of CameraComponent, not the owner itself
 	}
@@ -133,8 +137,7 @@ void USynchronizationManager::sendPositionChange(UActorComponent* synchronizedOb
 		TWeakObjectPtr<USynchronizedUser> user = controller->synchronizedUser;
 		nameToUse = toUpper(user->userAlias);
 
-		//Figure out better way to get the name of the user // This is hardcoded
-		pathToUse = "/Game/StarterContent/Maps/UEDPIE_0_Minimal_Default.Minimal_Default:PersistentLevel." + (user->userAlias);
+		pathToUse = levelPath + (user->userAlias);
 		pathToUse += (controller->controllerSide == USynchronizedController::ControllerSide::Left ? ".MC_Left.MotionControllerComponent_0" : ".MC_Right.MotionControllerComponent_0"); //Name of MCC is hardcoded
 
 		transformToUse = controller->VRController->GetComponentTransform();
@@ -143,9 +146,7 @@ void USynchronizationManager::sendPositionChange(UActorComponent* synchronizedOb
 	//Write replace method to replace " " with "-" in nameToUse
 	time_t currentTime = time(0);
 	std::string subject = "GMSEC." + toUpper(missionName) + "." + toUpper(satName) + ".MSG.ESTATE."
-		+ toUpper(groupID) + "." + toUpper(projectName) + "." + nameToUse + "." + toUpper(userName); //Might have to replace '.mtproj' in projectName as well, TBD
-
-	UE_LOG(LogTemp, Warning, TEXT("[SynchronizationManager] Subject: %s"), *FString(subject.c_str()));
+		+ toUpper(groupID) + "." + toUpper(projectName) + "." + nameToUse + "." + toUpper(userName); 
 
 	publishStateAttributeDataMessage(subject, EntityStateAttributeTypes::absolutePosition, pathToUse, currentTime, transformToUse);
 }
@@ -164,8 +165,7 @@ void USynchronizationManager::sendPositionChange(UActorComponent* synchronizedOb
 		USynchronizedUser* user = Cast<USynchronizedUser>(synchronizedObject);
 		nameToUse = toUpper(user->userAlias);
 
-		//Figure out better way to get the name of the user // This is hardcoded
-		pathToUse = "/Game/StarterContent/Maps/UEDPIE_0_Minimal_Default.Minimal_Default:PersistentLevel." + (user->userAlias) + "." + (user->userAlias);
+		pathToUse = levelPath + (user->userAlias) + "." + (user->userAlias);
 
 		transformToUse = user->VRCamera->GetComponentTransform(); //If user, send transform of CameraComponent, not the owner itself
 	}
@@ -175,15 +175,14 @@ void USynchronizationManager::sendPositionChange(UActorComponent* synchronizedOb
 		TWeakObjectPtr<USynchronizedUser> user = controller->synchronizedUser;
 		nameToUse = toUpper(user->userAlias);
 
-		//Figure out better way to get the name of the user // This is hardcoded
-		pathToUse = "/Game/StarterContent/Maps/UEDPIE_0_Minimal_Default.Minimal_Default:PersistentLevel." + (user->userAlias);
+		pathToUse = levelPath + (user->userAlias);
 		pathToUse += (controller->controllerSide == USynchronizedController::ControllerSide::Left ? ".MC_Left.MotionControllerComponent_0" : ".MC_Right.MotionControllerComponent_0"); //Name of MCC is hardcoded
 
 		transformToUse = controller->VRController->GetComponentTransform();
 	}
 
 	std::string subject = "GMSEC." + toUpper(missionName) + "." + toUpper(satName) + ".MSG.ESTATE."
-		+ toUpper(groupID) + "." + toUpper(projectName) + "." + nameToUse + "." + toUpper(userName); //Might have to replace '.mtproj' in projectName as well, TBD
+		+ toUpper(groupID) + "." + toUpper(projectName) + "." + nameToUse + "." + toUpper(userName);
 
 	publishStateAttributeDataMessage(subject, EntityStateAttributeTypes::absolutePosition, pathToUse, occurenceTime, transformToUse);
 }
@@ -202,8 +201,7 @@ void USynchronizationManager::sendRotationChange(UActorComponent* synchronizedOb
 		USynchronizedUser* user = Cast<USynchronizedUser>(synchronizedObject);
 		nameToUse = toUpper(user->userAlias);
 
-		//Figure out better way to get the name of the user // This is hardcoded
-		pathToUse = "/Game/StarterContent/Maps/UEDPIE_0_Minimal_Default.Minimal_Default:PersistentLevel." + (user->userAlias) + "." + (user->userAlias);
+		pathToUse = levelPath + (user->userAlias) + "." + (user->userAlias);
 
 		transformToUse = user->VRCamera->GetComponentTransform(); //If user, send transform of CameraComponent, not the owner itself
 	}
@@ -213,8 +211,7 @@ void USynchronizationManager::sendRotationChange(UActorComponent* synchronizedOb
 		TWeakObjectPtr<USynchronizedUser> user = controller->synchronizedUser;
 		nameToUse = toUpper(user->userAlias);
 
-		//Figure out better way to get the name of the user // This is hardcoded
-		pathToUse = "/Game/StarterContent/Maps/UEDPIE_0_Minimal_Default.Minimal_Default:PersistentLevel." + (user->userAlias);
+		pathToUse = levelPath + (user->userAlias);
 		pathToUse += (controller->controllerSide == USynchronizedController::ControllerSide::Left ? ".MC_Left.MotionControllerComponent_0" : ".MC_Right.MotionControllerComponent_0"); //Name of MCC is hardcoded
 
 		transformToUse = controller->VRController->GetComponentTransform();
@@ -224,7 +221,7 @@ void USynchronizationManager::sendRotationChange(UActorComponent* synchronizedOb
 
 	time_t currentTime = time(0);
 	std::string subject = "GMSEC." + toUpper(missionName) + "." + toUpper(satName) + ".MSG.ESTATE."
-		+ toUpper(groupID) + "." + toUpper(projectName) + "." + nameToUse + "." + toUpper(userName); //Might have to replace '.mtproj' in projectName as well, TBD
+		+ toUpper(groupID) + "." + toUpper(projectName) + "." + nameToUse + "." + toUpper(userName); 
 
 	publishStateAttributeDataMessage(subject, EntityStateAttributeTypes::absoluteRotation, pathToUse, currentTime, transformToUse);
 }
@@ -243,8 +240,7 @@ void USynchronizationManager::sendRotationChange(UActorComponent* synchronizedOb
 		USynchronizedUser* user = Cast<USynchronizedUser>(synchronizedObject);
 		nameToUse = toUpper(user->userAlias);
 
-		//Figure out better way to get the name of the user // This is hardcoded
-		pathToUse = "/Game/StarterContent/Maps/UEDPIE_0_Minimal_Default.Minimal_Default:PersistentLevel." + (user->userAlias) + "." + (user->userAlias);
+		pathToUse = levelPath + (user->userAlias) + "." + (user->userAlias);
 
 		transformToUse = user->VRCamera->GetComponentTransform(); //If user, send transform of CameraComponent, not the owner itself
 	}
@@ -254,15 +250,14 @@ void USynchronizationManager::sendRotationChange(UActorComponent* synchronizedOb
 		TWeakObjectPtr<USynchronizedUser> user = controller->synchronizedUser;
 		nameToUse = toUpper(user->userAlias);
 
-		//Figure out better way to get the name of the user // This is hardcoded
-		pathToUse = "/Game/StarterContent/Maps/UEDPIE_0_Minimal_Default.Minimal_Default:PersistentLevel." + (user->userAlias);
+		pathToUse = levelPath + (user->userAlias);
 		pathToUse += (controller->controllerSide == USynchronizedController::ControllerSide::Left ? ".MC_Left.MotionControllerComponent_0" : ".MC_Right.MotionControllerComponent_0"); //Name of MCC is hardcoded
 
 		transformToUse = controller->VRController->GetComponentTransform();
 	}
 
 	std::string subject = "GMSEC." + toUpper(missionName) + "." + toUpper(satName) + ".MSG.ESTATE."
-		+ toUpper(groupID) + "." + toUpper(projectName) + "." + nameToUse + "." + toUpper(userName); //Might have to replace '.mtproj' in projectName as well, TBD
+		+ toUpper(groupID) + "." + toUpper(projectName) + "." + nameToUse + "." + toUpper(userName); 
 
 	publishStateAttributeDataMessage(subject, EntityStateAttributeTypes::absoluteRotation, pathToUse, occurenceTime, transformToUse);
 }
@@ -281,8 +276,7 @@ void USynchronizationManager::sendScaleChange(UActorComponent* synchronizedObjec
 		USynchronizedUser* user = Cast<USynchronizedUser>(synchronizedObject);
 		nameToUse = toUpper(user->userAlias);
 
-		//Figure out better way to get the name of the user // This is hardcoded
-		pathToUse = "/Game/StarterContent/Maps/UEDPIE_0_Minimal_Default.Minimal_Default:PersistentLevel." + (user->userAlias) + "." + (user->userAlias);
+		pathToUse = levelPath + (user->userAlias) + "." + (user->userAlias);
 
 		transformToUse = user->VRCamera->GetComponentTransform(); //If user, send transform of CameraComponent, not the owner itself
 	}
@@ -292,8 +286,7 @@ void USynchronizationManager::sendScaleChange(UActorComponent* synchronizedObjec
 		TWeakObjectPtr<USynchronizedUser> user = controller->synchronizedUser;
 		nameToUse = toUpper(user->userAlias);
 
-		//Figure out better way to get the name of the user // This is hardcoded
-		pathToUse = "/Game/StarterContent/Maps/UEDPIE_0_Minimal_Default.Minimal_Default:PersistentLevel." + (user->userAlias);
+		pathToUse = levelPath + (user->userAlias);
 		pathToUse += (controller->controllerSide == USynchronizedController::ControllerSide::Left ? ".MC_Left.MotionControllerComponent_0" : ".MC_Right.MotionControllerComponent_0"); //Name of MCC is hardcoded
 
 		transformToUse = controller->VRController->GetComponentTransform();
@@ -301,7 +294,7 @@ void USynchronizationManager::sendScaleChange(UActorComponent* synchronizedObjec
 
 	time_t currentTime = time(0);
 	std::string subject = "GMSEC." + toUpper(missionName) + "." + toUpper(satName) + ".MSG.ESTATE."
-		+ toUpper(groupID) + "." + toUpper(projectName) + "." + nameToUse + "." + toUpper(userName); //Might have to replace '.mtproj' in projectName as well, TBD
+		+ toUpper(groupID) + "." + toUpper(projectName) + "." + nameToUse + "." + toUpper(userName); 
 	UE_LOG(LogTemp, Warning, TEXT("[SynchronizationManager]: %s"), *FString(subject.c_str()));
 	UE_LOG(LogTemp, Warning, TEXT("[SynchronizationManager]: %s"), *FString(pathToUse.c_str()));
 
@@ -322,8 +315,7 @@ void USynchronizationManager::sendScaleChange(UActorComponent* synchronizedObjec
 		USynchronizedUser* user = Cast<USynchronizedUser>(synchronizedObject);
 		nameToUse = toUpper(user->userAlias);
 
-		//Figure out better way to get the name of the user // This is hardcoded
-		pathToUse = "/Game/StarterContent/Maps/UEDPIE_0_Minimal_Default.Minimal_Default:PersistentLevel." + (user->userAlias) + "." + (user->userAlias);
+		pathToUse = levelPath + (user->userAlias) + "." + (user->userAlias);
 
 		transformToUse = user->VRCamera->GetComponentTransform(); //If user, send transform of CameraComponent, not the owner itself
 	}
@@ -333,13 +325,12 @@ void USynchronizationManager::sendScaleChange(UActorComponent* synchronizedObjec
 		TWeakObjectPtr<USynchronizedUser> user = controller->synchronizedUser;
 		nameToUse = toUpper(user->userAlias);
 
-		//Figure out better way to get the name of the user // This is hardcoded
-		pathToUse = "/Game/StarterContent/Maps/UEDPIE_0_Minimal_Default.Minimal_Default:PersistentLevel." + (user->userAlias) + "." + (user->userAlias);
+		pathToUse = levelPath + (user->userAlias) + "." + (user->userAlias);
 		pathToUse += (controller->controllerSide == USynchronizedController::ControllerSide::Left ? ".Left" : ".Right");
 	}
 
 	std::string subject = "GMSEC." + toUpper(missionName) + "." + toUpper(satName) + ".MSG.ESTATE."
-		+ toUpper(groupID) + "." + toUpper(projectName) + "." + nameToUse + "." + toUpper(userName); //Might have to replace '.mtproj' in projectName as well, TBD
+		+ toUpper(groupID) + "." + toUpper(projectName) + "." + nameToUse + "." + toUpper(userName); 
 	UE_LOG(LogTemp, Warning, TEXT("[SynchronizationManager]: %s"), *FString(subject.c_str()));
 	UE_LOG(LogTemp, Warning, TEXT("[SynchronizationManager]: %s"), *FString(pathToUse.c_str()));
 

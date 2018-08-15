@@ -30,14 +30,6 @@ void USynchronizedUser::BeginPlay()
 	Super::BeginPlay();
 
 	VRCamera = GetOwner()->FindComponentByClass<UCameraComponent>();
-	if (VRCamera.IsValid())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("[SynchronizedUser] Owner Is Valid"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("[SynchronizedUser] Owner Is NOT Valid"));
-	}
 
 	lastRecordedPosition = VRCamera->GetComponentTransform().GetTranslation();
 	lastRecordedRotation = VRCamera->GetComponentTransform().GetRotation();

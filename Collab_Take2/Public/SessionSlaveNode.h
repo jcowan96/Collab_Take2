@@ -85,7 +85,11 @@ private:
 
 	std::vector<std::string> split(const std::string &text, char sep);
 	std::string toUpper(std::string str);
+	FString worldTypeToString(EWorldType::Type world);
 
 	UStaticMesh* Avatar;
 	UStaticMesh* Avatar_Controller;
+
+	FString vrPawn = FString(TEXT("VR_Pawn_2"));
+	FString worldType = FString(TEXT("UEDPIE"));
 };

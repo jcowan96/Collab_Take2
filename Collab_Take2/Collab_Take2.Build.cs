@@ -4,7 +4,7 @@ using UnrealBuildTool;
 
 public class Collab_Take2 : ModuleRules
 {
-    private string GMSEC_Path = "C:/Users/Jack/Dev/GMSEC_API";
+    private string GMSEC_Path = "C:/Users/jmcowan/Dev/GMSEC_API";
 
     public Collab_Take2(ReadOnlyTargetRules Target) : base(Target)
 	{

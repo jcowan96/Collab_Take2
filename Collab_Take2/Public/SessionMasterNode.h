@@ -77,16 +77,18 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	bool foundHMD = false; //Testing purposes
 	bool subscribed = false;
 	bool gotSessionInfo = false;
-	bool foundCamera = false;
 	std::unique_ptr<SessionInformation> currentSessionInfo;
 	std::vector<TWeakObjectPtr<USynchronizedUser>> synchronizedUsers;
 
 	std::string connectionTypeToString(ConnectionTypes rawConnType);
 	std::string toUpper(std::string str);
+	FString worldTypeToString(EWorldType::Type world);
 
 	UStaticMesh* Avatar;
 	UStaticMesh* Avatar_Controller;
+
+	FString vrPawn = FString(TEXT("VR_Pawn_2"));
+	FString worldType = FString(TEXT("UEDPIE"));
 };

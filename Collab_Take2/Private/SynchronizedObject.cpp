@@ -75,7 +75,6 @@ void USynchronizedObject::TickComponent(float DeltaTime, ELevelTick TickType, FA
 			if ((owner->GetTransform().GetTranslation() - lastRecordedPosition).Size() > 0.1f)
 			{
 				//Log something here
-				GMSEC_DEBUG << "[SynchronizedObject] position changed";
 				UE_LOG(LogTemp, Warning, TEXT("[SynchronizedObject] position changed"));
 
 				lastRecordedPosition = owner->GetTransform().GetTranslation();
@@ -89,7 +88,6 @@ void USynchronizedObject::TickComponent(float DeltaTime, ELevelTick TickType, FA
 			if ((owner->GetTransform().GetRotation().Euler() - lastRecordedRotation.Euler()).Size() > 1.0f)
 			{
 				//Log something here
-				GMSEC_DEBUG << "[SynchronizedObject] rotation changed";
 				UE_LOG(LogTemp, Warning, TEXT("[SynchronizedObject] rotation changed"));
 
 				lastRecordedRotation = owner->GetTransform().GetRotation();
@@ -103,7 +101,6 @@ void USynchronizedObject::TickComponent(float DeltaTime, ELevelTick TickType, FA
 			if ((owner->GetTransform().GetScale3D() - lastRecordedScale).Size() > 0.1f)
 			{
 				//Log something here
-				GMSEC_DEBUG << "[SynchronizedObject] scale changed";
 				UE_LOG(LogTemp, Warning, TEXT("[SynchronizedObject] scale changed"));
 
 				lastRecordedScale = owner->GetTransform().GetScale3D();

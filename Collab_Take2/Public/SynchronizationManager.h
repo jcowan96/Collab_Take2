@@ -17,6 +17,7 @@
 #include <ctime>
 #include <thread>
 #include <mutex>
+#include "Runtime/Core/Public/Misc/Paths.h"
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Runtime/Engine/Public/EngineUtils.h"
@@ -88,6 +89,8 @@ private:
 	std::vector<std::string> split(const std::string &text, char sep);
 	std::string getTimestamp(std::time_t time);
 	std::string getFullPath(UActorComponent* object);
+
 	bool subscribed = false;
 	bool updateSent = false;
+	std::string levelPath = "/Game/StarterContent/Maps/UEDPIE_0_Minimal_Default.Minimal_Default:PersistentLevel."; //This will probably change in different Level or outside of editor
 };
